@@ -1,2 +1,7 @@
-package com.example.twitchdemo.model;public class FavoriteRequestBody {
-}
+package com.example.twitchdemo.model;
+
+import com.example.twitchdemo.db.entity.ItemEntity;
+
+public record FavoriteRequestBody(
+        ItemEntity favorite
+) {}

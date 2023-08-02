@@ -1,6 +1,8 @@
-package com.example.twitchdemo.external;
+package com.example.twitchdemo.external.model;
 
 
+
+import com.example.twitchdemo.external.model.Video;
 
 import java.util.List;
 

@@ -1,4 +1,6 @@
-package com.example.twitchdemo.external;
+package com.example.twitchdemo.external.model;
+
+import com.example.twitchdemo.external.model.Stream;
 
 import java.util.List;
 

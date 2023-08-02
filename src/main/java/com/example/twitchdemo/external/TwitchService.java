@@ -1,9 +1,9 @@
 package com.example.twitchdemo.external;
 
-import com.example.twitchdemo.external.Clip;
-import com.example.twitchdemo.external.Game;
-import com.example.twitchdemo.external.Stream;
-import com.example.twitchdemo.external.Video;
+import com.example.twitchdemo.external.model.Clip;
+import com.example.twitchdemo.external.model.Game;
+import com.example.twitchdemo.external.model.Stream;
+import com.example.twitchdemo.external.model.Video;
 import org.springframework.stereotype.Service;
 
 

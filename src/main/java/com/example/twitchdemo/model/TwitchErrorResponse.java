@@ -1,4 +1,4 @@
-package com.example.twitchdemo;
+package com.example.twitchdemo.model;
 
 public record TwitchErrorResponse(
         String message,
