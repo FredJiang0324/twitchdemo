@@ -3,7 +3,10 @@ package com.example.twitchdemo.favorite;
 import com.example.twitchdemo.db.entity.UserEntity;
 import com.example.twitchdemo.model.FavoriteRequestBody;
 import com.example.twitchdemo.model.TypeGroupedItemList;
+import com.example.twitchdemo.user.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -11,22 +14,27 @@ import org.springframework.web.server.ResponseStatusException;
 @RequestMapping("/favorite")
 public class FavoriteController {
 
+
     private final FavoriteService favoriteService;
+    private final UserService userService;
 
-    // Hard-coded user for temporary use, will be replaced in future
-    private final UserEntity userEntity = new UserEntity(1L, "user0", "Foo", "Bar", "password");
 
-    public FavoriteController(FavoriteService favoriteService) {
+    public FavoriteController(FavoriteService favoriteService, UserService userService) {
         this.favoriteService = favoriteService;
+        this.userService = userService;
     }
 
+
     @GetMapping
-    public TypeGroupedItemList getFavoriteItems() {
+    public TypeGroupedItemList getFavoriteItems(@AuthenticationPrincipal User user) {
+        UserEntity userEntity = userService.findByUsername(user.getUsername());
         return favoriteService.getGroupedFavoriteItems(userEntity);
     }
 
+
     @PostMapping
-    public void setFavoriteItem(@RequestBody FavoriteRequestBody body) {
+    public void setFavoriteItem(@AuthenticationPrincipal User user, @RequestBody FavoriteRequestBody body) throws DuplicateFavoriteException {
+        UserEntity userEntity = userService.findByUsername(user.getUsername());
         try {
             favoriteService.setFavoriteItem(userEntity, body.favorite());
         } catch (DuplicateFavoriteException e) {
@@ -34,8 +42,10 @@ public class FavoriteController {
         }
     }
 
+
     @DeleteMapping
-    public void unsetFavoriteItem(@RequestBody FavoriteRequestBody body) {
+    public void unsetFavoriteItem(@AuthenticationPrincipal User user, @RequestBody FavoriteRequestBody body) {
+        UserEntity userEntity = userService.findByUsername(user.getUsername());
         favoriteService.unsetFavoriteItem(userEntity, body.favorite().twitchId());
     }
 }

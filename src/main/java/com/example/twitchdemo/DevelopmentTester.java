@@ -6,6 +6,7 @@ import com.example.twitchdemo.db.entity.UserEntity;
 import com.example.twitchdemo.db.entity.FavoriteRecordEntity;
 import com.example.twitchdemo.db.entity.ItemEntity;
 import com.example.twitchdemo.model.ItemType;
+import com.example.twitchdemo.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -19,20 +20,24 @@ import java.util.List;
 @Component
 public class DevelopmentTester implements ApplicationRunner {
 
+
     private static final Logger logger = LoggerFactory.getLogger(DevelopmentTester.class);
 
-    public DevelopmentTester(UserRepository userRepository) {
-        this.userRepository = userRepository;
+
+    private final UserService userService;
+
+
+    public DevelopmentTester(UserService userService) {
+        this.userService = userService;
     }
 
-    private final UserRepository userRepository;
 
     @Override
     public void run(ApplicationArguments args) {
-        UserEntity newUser = new UserEntity(null, "user0", "Foo", "Bar", "password");
-        userRepository.save(newUser);
+        userService.register("default", "123456", "John", "Smith");
     }
 }
+
 /*
 public class DevelopmentTester implements ApplicationRunner {
 
